@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'sinatra/config_file'
 require 'data_mapper'
 
+require './models/company'
+
 class Prism < Sinatra::Base
   register Sinatra::ConfigFile
 
