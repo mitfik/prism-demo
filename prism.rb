@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/config_file'
 require 'data_mapper'
+require 'rabl'
 
 require './models/company'
 
@@ -20,9 +21,15 @@ class Prism < Sinatra::Base
 
   configure do
     initialize_database
+    Rabl.register!
   end
 
   get '/' do
     "Welcome in PRISM demo"
+  end
+
+  get '/companies' do
+    @companies = DataMapper.repository(:default) {Company.all}
+    rabl :companies, :fromat => :json
   end
 end
