@@ -1,2 +1,2 @@
 require './prism'
-run Sinatra::Application
+run Prism.new
