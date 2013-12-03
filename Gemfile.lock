@@ -82,5 +82,6 @@ PLATFORMS
 DEPENDENCIES
   data_mapper
   dm-postgres-adapter
+  rack-test
   sinatra
   sinatra-contrib
