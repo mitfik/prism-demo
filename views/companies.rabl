@@ -1,1 +1,3 @@
-object @companies
+collection @companies
+
+extends 'company'
