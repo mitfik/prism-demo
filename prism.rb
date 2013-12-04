@@ -77,6 +77,10 @@ class Prism < Sinatra::Base
     end
   end
 
+  not_found do
+    render_404
+  end
+
   private
     def render_404
       status 404
