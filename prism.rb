@@ -9,7 +9,7 @@ require './models/company'
 class Prism < Sinatra::Base
   register Sinatra::ConfigFile
 
-  config_file File.join(ENV['CONFIG_FILE'] || "config/database.yml")
+  config_file File.join(ENV['CONFIG_FILE'] || "config/settings.yml")
   set :upload_path, File.join(settings.root, "pdfs") unless settings.respond_to? :upload_path
 
   def self.initialize_database
