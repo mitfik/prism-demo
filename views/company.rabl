@@ -1,5 +1,5 @@
 object @company
-attributes :name, :address, :city, :country, :email, :phone_number, :owners
+attributes :id, :name, :address, :city, :country, :email, :phone_number, :owners
 if @company
   node(:status) {
     if @company.errors.empty?
