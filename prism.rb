@@ -10,6 +10,7 @@ class Prism < Sinatra::Base
   register Sinatra::ConfigFile
 
   config_file File.join(ENV['CONFIG_FILE'] || "config/database.yml")
+  set :upload_path, File.join(settings.root, "pdfs") unless settings.respond_to? :upload_path
 
   def self.initialize_database
     begin
@@ -64,6 +65,23 @@ class Prism < Sinatra::Base
       end
     rescue => msg
       render_400
+    end
+  end
+
+  # Upload pdf file for give company
+  put '/company/:id/upload', :provides => [:json] do
+    company = Company.get(params["id"])
+
+    if company
+      @error_msg = company.upload_pdf(params["file"], settings.upload_path)
+      if @error_msg
+        status 500
+        rabl :pdf, :format => :json
+      else
+        status 200
+      end
+    else
+        render_404
     end
   end
 
