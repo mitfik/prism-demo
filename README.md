@@ -45,4 +45,9 @@ If you want to see also http headers use *-i* with curl like:
 
   curl -H "Accept: application/json" -H "Content-type: application/json" -X PUT
   -d '{"name": "New name", "address": "Wojska Polskiego", "city": "kazi", "country":
-  "Niemcy"}' http://localhost:5000/company/1
+  "Niemcy"}' http://prism-demo.herokuapp.com/company/1
+
+* Upload pdf for the company with ID=1
+
+  curl -i -H "Accept: application/json" -X PUT -F "file=@test.pdf"
+  http://prism-demo.herokuapp.com/company/1/upload
