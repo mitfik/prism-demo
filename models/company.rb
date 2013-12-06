@@ -8,8 +8,7 @@ class Company
   property :country, String, :required => true
   property :email, String, :format => :email_address
   property :phone_number, String
-  property :owners, Json
-
+  has n, :owners
 
   def upload_pdf(file_params, upload_path)
     begin

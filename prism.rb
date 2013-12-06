@@ -5,6 +5,7 @@ require 'json'
 require 'rabl'
 
 require './models/company'
+require './models/owner'
 
 class Prism < Sinatra::Base
   register Sinatra::ConfigFile
@@ -44,8 +45,12 @@ class Prism < Sinatra::Base
   post '/company', :provides => [:json] do
     begin
       params = JSON.parse(request.body.read.to_s)
+      owners = params.delete("owners")
       @company = Company.new(params)
       @company.save
+      owners.each do |owner|
+        @company.owners.create(owner)
+      end
       rabl :company, :format => :json
     rescue => msg
       render_400
@@ -56,9 +61,18 @@ class Prism < Sinatra::Base
   put '/company/:id', :provides => [:json] do
     begin
       attributes = JSON.parse(request.body.read.to_s)
+      owners = attributes.delete("owners") || []
       @company = Company.get(params["id"])
       if @company
         @company.update(attributes)
+        owners.each do |owner_attr|
+          owner = Owner.get(owner_attr["id"])
+          if owner
+            owner.update(owner_attr)
+          else
+            @company.owners.create(owner_attr)
+          end
+        end
         rabl :company, :format => :json
       else
         render_404
