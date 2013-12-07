@@ -45,7 +45,7 @@ class Prism < Sinatra::Base
   post '/company', :provides => [:json] do
     begin
       params = JSON.parse(request.body.read.to_s)
-      owners = params.delete("owners")
+      owners = params.delete("owners") || []
       @company = Company.new(params)
       @company.save
       owners.each do |owner|
