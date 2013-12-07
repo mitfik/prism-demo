@@ -82,12 +82,13 @@ class Prism < Sinatra::Base
     end
   end
 
-  # Upload pdf file for give company
-  put '/company/:id/upload', :provides => [:json] do
+  # Upload pdf file for give company and specific owner
+  put '/company/:id/:owner_id/upload', :provides => [:json] do
     company = Company.get(params["id"])
+    owner = company.owners.get(params["owner_id"])
 
-    if company
-      @error_msg = company.upload_pdf(params["file"], settings.upload_path)
+    if owner
+      @error_msg = owner.upload_pdf(params["file"], settings.upload_path)
       if @error_msg
         status 500
         rabl :pdf, :format => :json
@@ -109,6 +110,17 @@ class Prism < Sinatra::Base
     end
   end
 
+  # Fetch owner pdf
+  get '/company/:id/owner/:owner_id', :provides => [:json] do
+    owner = Owner.get(params["owner_id"])
+    if owner
+      file = owner.file_path(settings.upload_path)
+      render_file(file)
+    else
+      render_404
+    end
+  end
+
   not_found do
     render_404
   end
@@ -120,6 +132,14 @@ class Prism < Sinatra::Base
 
     def render_400
       status 400
+    end
+
+    def render_file(path)
+      if path
+        send_file path
+      else
+        render_404
+      end
     end
 
 end

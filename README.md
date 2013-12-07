@@ -50,3 +50,7 @@ If you want to see also http headers use *-i* with curl like:
 * Upload pdf for the company with ID=1
 
   curl -i -H "Accept: application/json" -X PUT -F "file=@test.pdf" http://prism-demo.herokuapp.com/company/1/upload
+
+* Fetch owner pdf from company ID=1 and owner ID=1
+
+  curl -i http://prism-demo.herokuapp.com/company/1/owner/1 -o 1.pdf
