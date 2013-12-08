@@ -27,6 +27,10 @@ class Prism < Sinatra::Base
   configure do
     initialize_database
     Rabl.register!
+    Rabl.configure do |config|
+      config.include_json_root = false
+      config.include_child_root = false
+    end
     set :allow_origin, :any
     # HTTP methods allowed
     set :allow_methods, [:get, :post, :put]
