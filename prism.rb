@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/config_file'
+require 'sinatra/cross_origin'
 require 'data_mapper'
 require 'json'
 require 'rabl'
@@ -9,6 +10,7 @@ require './models/owner'
 
 class Prism < Sinatra::Base
   register Sinatra::ConfigFile
+  register Sinatra::CrossOrigin
 
   config_file File.join(ENV['CONFIG_FILE'] || "config/settings.yml")
   set :upload_path, File.join(settings.root, "pdfs") unless settings.respond_to? :upload_path
@@ -25,10 +27,14 @@ class Prism < Sinatra::Base
   configure do
     initialize_database
     Rabl.register!
+    set :allow_origin, :any
+    # HTTP methods allowed
+    set :allow_methods, [:get, :post, :put]
   end
 
   before do
     content_type 'application/json'
+    cross_origin
   end
 
   get '/' do
