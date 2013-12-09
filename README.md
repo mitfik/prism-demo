@@ -47,9 +47,9 @@ If you want to see also http headers use *-i* with curl like:
 
     curl -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{"name": "NASA", "address": "Wojska Polskiego", "city": "kazi", "country": "USA", "owners":[{"full_name":"Robert"}, {"full_name":"Adam"}], "phone_number": "1241241241" }' http://prism-demo.herokuapp.com/company/1
 
-### Upload pdf for the company with ID=1
+### Upload pdf for the owner (with ID=3) of the company (with ID=1)
 
-    curl -i -H "Accept: application/json" -X PUT -F "file=@test.pdf" http://prism-demo.herokuapp.com/company/1/upload
+    curl -i -H "Accept: application/json" -X PUT -F "file=@test.pdf" http://prism-demo.herokuapp.com/company/1/3/upload
 
 ### Fetch owner pdf from company ID=1 and owner ID=1
 
